@@ -1,0 +1,7 @@
+[package]
+name = "issuer_check_v01"
+type = "bin"
+authors = [""]
+compiler_version = ">=0.19.0"
+
+[dependencies]

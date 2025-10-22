@@ -1,54 +1,6 @@
 {
   "lockfile_version": "1",
   "packages": {
-    "circom@2.1.6": {
-      "last_modified": "2024-01-27T14:55:31Z",
-      "resolved": "github:NixOS/nixpkgs/160b762eda6d139ac10ae081f8f78d640dd523eb#circom",
-      "source": "devbox-search",
-      "version": "2.1.6",
-      "systems": {
-        "aarch64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/1ha4yq947mxkyipla2n6lig669f2gl78-circom-2.1.6",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/1ha4yq947mxkyipla2n6lig669f2gl78-circom-2.1.6"
-        },
-        "aarch64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/75k04f54k3hayv21q772kghvnarq1p93-circom-2.1.6",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/75k04f54k3hayv21q772kghvnarq1p93-circom-2.1.6"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/2qmx2f2vxp2lph6dpb3i1f03d6c6snp8-circom-2.1.6",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/2qmx2f2vxp2lph6dpb3i1f03d6c6snp8-circom-2.1.6"
-        },
-        "x86_64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/jlfwiwq3jkd6v22nx3f1wpbdri1k5d8z-circom-2.1.6",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/jlfwiwq3jkd6v22nx3f1wpbdri1k5d8z-circom-2.1.6"
-        }
-      }
-    },
     "github:NixOS/nixpkgs/nixpkgs-unstable": {
       "last_modified": "2025-09-28T14:42:27Z",
       "resolved": "github:NixOS/nixpkgs/647e5c14cbd5067f44ac86b74f014962df460840?lastModified=1759070547&narHash=sha256-JVZl8NaVRYb0%2B381nl7LvPE%2BA774%2FdRpif01FKLrYFQ%3D"
