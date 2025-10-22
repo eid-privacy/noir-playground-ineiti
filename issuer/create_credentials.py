@@ -125,29 +125,52 @@ def create_fixed_credentials(issuer_private_key, crypto_data):
     print("Creating fixed-size credentials...")
 
     for i, identity in enumerate(IDENTITIES):
-        # Create fixed-size credential data (binary format)
-        # This is a placeholder implementation - actual format would depend on circuit requirements
-        credential_data = {
-            "firstname": identity["firstname"].ljust(32, '\0')[:32],  # Fixed 32 bytes
-            "lastname": identity["lastname"].ljust(32, '\0')[:32],    # Fixed 32 bytes
-            "date_of_birth": identity["date_of_birth"],               # 8 bytes (uint64)
-            "salt": crypto_data[i]["salt"],                           # 32 bytes (256 bits)
-            "device_key": crypto_data[i]["device_public_key"].public_bytes(
-                encoding=serialization.Encoding.X962,
-                format=serialization.PublicFormat.UncompressedPoint
-            ).hex(),
-            "end_of_validity": int(datetime(2030, 12, 31).timestamp())
-        }
+        # Create fixed-size binary credential data
+        credential_binary = bytearray()
 
-        # Create signature over credential data
-        credential_bytes = json.dumps(credential_data, sort_keys=True).encode()
-        signature = issuer_private_key.sign(credential_bytes, ec.ECDSA(hashes.SHA256()))
+        # firstname - 32 bytes (UTF-8, null-padded)
+        firstname_bytes = identity["firstname"].encode('utf-8')[:32]
+        credential_binary.extend(firstname_bytes.ljust(32, b'\x00'))
 
-        credential_data["signature"] = signature.hex()
+        # lastname - 32 bytes (UTF-8, null-padded)
+        lastname_bytes = identity["lastname"].encode('utf-8')[:32]
+        credential_binary.extend(lastname_bytes.ljust(32, b'\x00'))
 
-        # Save fixed credential as JSON for now (binary format TBD)
-        with open(f"./creds/fixed/credential_{i}.json", "w") as f:
-            json.dump(credential_data, f, indent=2)
+        # date_of_birth - 8 bytes (uint64, big-endian)
+        credential_binary.extend(identity["date_of_birth"].to_bytes(8, 'big'))
+
+        # salt - 32 bytes (256 bits)
+        salt_bytes = crypto_data[i]["salt"].to_bytes(32, 'big')
+        credential_binary.extend(salt_bytes)
+
+        # device_key - 65 bytes (uncompressed P-256 public key)
+        device_key_bytes = crypto_data[i]["device_public_key"].public_bytes(
+            encoding=serialization.Encoding.X962,
+            format=serialization.PublicFormat.UncompressedPoint
+        )
+        credential_binary.extend(device_key_bytes)
+
+        # end_of_validity - 8 bytes (uint64, big-endian)
+        end_validity = int(datetime(2030, 12, 31).timestamp())
+        credential_binary.extend(end_validity.to_bytes(8, 'big'))
+
+        # Create signature over binary credential data
+        signature = issuer_private_key.sign(bytes(credential_binary), ec.ECDSA(hashes.SHA256()))
+
+        # signature - 64 bytes (r and s values, 32 bytes each)
+        # Note: This is a simplified representation - actual DER encoding might vary
+        from cryptography.hazmat.primitives.asymmetric.utils import decode_dss_signature
+        r, s = decode_dss_signature(signature)
+        signature_bytes = r.to_bytes(32, 'big') + s.to_bytes(32, 'big')
+        credential_binary.extend(signature_bytes)
+
+        # Save as binary file
+        with open(f"./creds/fixed/credential_{i}.bin", "wb") as f:
+            f.write(credential_binary)
+
+        # Save as hex file (same content as ASCII hex)
+        with open(f"./creds/fixed/credential_{i}.hex", "w") as f:
+            f.write(credential_binary.hex())
 
 def main():
     """Main entry point for credential creation."""
