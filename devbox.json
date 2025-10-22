@@ -1,0 +1,14 @@
+{
+  "packages": [
+    "nodejs@18",
+    "python@3.11",
+    "python311Packages.pip",
+    "circom@2.1.6"
+  ],
+  "shell": {
+    "init_hook": [
+      ". $VENV_DIR/bin/activate",
+      "pip install -r issuer/requirements.txt"
+    ]
+  }
+}
