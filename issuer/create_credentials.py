@@ -38,7 +38,7 @@ def setup_cryptography():
     # Create creds directory structure
     os.makedirs("./creds", exist_ok=True)
     os.makedirs("./creds/json", exist_ok=True)
-    os.makedirs("./creds/fixed", exist_ok=True)
+    os.makedirs("./creds/raw", exist_ok=True)
 
     # Generate issuer private/public key pair
     issuer_private_key = ec.generate_private_key(ec.SECP256R1())
@@ -120,12 +120,12 @@ def create_json_credentials(issuer_private_key, crypto_data):
         with open(f"./creds/json/credential_{i}.json", "w") as f:
             json.dump(credential, f, indent=2)
 
-def create_fixed_credentials(issuer_private_key, crypto_data):
-    """Create fixed-size format credentials."""
-    print("Creating fixed-size credentials...")
+def create_raw_credentials(issuer_private_key, crypto_data):
+    """Create raw format credentials."""
+    print("Creating raw credentials...")
 
     for i, identity in enumerate(IDENTITIES):
-        # Create fixed-size binary credential data
+        # Create raw binary credential data
         credential_binary = bytearray()
 
         # firstname - 32 bytes (UTF-8, null-padded)
@@ -165,11 +165,11 @@ def create_fixed_credentials(issuer_private_key, crypto_data):
         credential_binary.extend(signature_bytes)
 
         # Save as binary file
-        with open(f"./creds/fixed/credential_{i}.bin", "wb") as f:
+        with open(f"./creds/raw/credential_{i}.bin", "wb") as f:
             f.write(credential_binary)
 
         # Save as hex file (same content as ASCII hex)
-        with open(f"./creds/fixed/credential_{i}.hex", "w") as f:
+        with open(f"./creds/raw/credential_{i}.hex", "w") as f:
             f.write(credential_binary.hex())
 
 def main():
@@ -182,8 +182,8 @@ def main():
     # Create JSON credentials
     create_json_credentials(issuer_private_key, crypto_data)
 
-    # Create fixed-size credentials
-    create_fixed_credentials(issuer_private_key, crypto_data)
+    # Create raw credentials
+    create_raw_credentials(issuer_private_key, crypto_data)
 
     print("Credential creation completed!")
 

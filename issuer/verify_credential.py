@@ -60,9 +60,9 @@ def verify_json_credential(filename):
         print(f"✗ JSON credential signature is INVALID: {e}")
         return False
 
-def verify_binary_credential(filename):
-    """Verify a binary credential signature."""
-    print(f"Verifying binary credential: {filename}")
+def verify_raw_credential(filename):
+    """Verify a raw credential signature."""
+    print(f"Verifying raw credential: {filename}")
 
     # Load public keys
     issuer_public_key, _ = load_public_keys()
@@ -77,7 +77,7 @@ def verify_binary_credential(filename):
     # signature: 64 bytes
 
     if len(credential_data) != 241:
-        print(f"✗ Invalid binary credential length: {len(credential_data)} (expected 241)")
+        print(f"✗ Invalid raw credential length: {len(credential_data)} (expected 241)")
         return False
 
     # Extract signature (last 64 bytes)
@@ -92,10 +92,10 @@ def verify_binary_credential(filename):
     # Verify signature
     try:
         issuer_public_key.verify(signature, credential_without_sig, ec.ECDSA(hashes.SHA256()))
-        print(f"✓ Binary credential signature is VALID")
+        print(f"✓ Raw credential signature is VALID")
         return True
     except Exception as e:
-        print(f"✗ Binary credential signature is INVALID: {e}")
+        print(f"✗ Raw credential signature is INVALID: {e}")
         return False
 
 def main():
@@ -109,11 +109,11 @@ def main():
         if os.path.exists(json_file):
             verify_json_credential(json_file)
 
-    print("\n=== Verifying binary credentials ===")
+    print("\n=== Verifying raw credentials ===")
     for i in range(3):
-        bin_file = f"./creds/fixed/credential_{i}.bin"
+        bin_file = f"./creds/raw/credential_{i}.bin"
         if os.path.exists(bin_file):
-            verify_binary_credential(bin_file)
+            verify_raw_credential(bin_file)
 
 if __name__ == "__main__":
     main()
