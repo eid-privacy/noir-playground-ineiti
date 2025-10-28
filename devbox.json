@@ -9,9 +9,68 @@
   "shell": {
     "init_hook": [
       ". $VENV_DIR/bin/activate",
-      "pip install -r issuer/requirements.txt",
-      "if [ ! -f ~/.nargo/bin/noirup ]; then curl -L https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash && ~/.nargo/bin/noirup; fi"
-    ]
+      "if [ ! -f ~/.nargo/bin/noirup ]; then curl -L https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash && ~/.nargo/bin/noirup; fi",
+      "pip install ecdsa"
+    ],
+    "scripts": {
+      "setup": [
+        "echo '🚀 Setting up Noir Age Verification Example'",
+        "pip install ecdsa",
+        "echo '✅ Dependencies installed'"
+      ],
+      "setup-example": [
+        "echo '📝 Creating example data...'",
+        "python3 scripts/setup_example.py"
+      ],
+      "generate-keys": [
+        "echo '🗝️  Generating issuer keys...'",
+        "python3 scripts/generate_keys.py"
+      ],
+      "sign-credential": [
+        "echo '✍️  Creating and signing credential...'",
+        "python3 scripts/sign_credential.py"
+      ],
+      "check-circuit": [
+        "echo '🔍 Checking Noir circuit...'",
+        "cd age_verification && nargo check"
+      ],
+      "test-circuit": [
+        "echo '🧪 Running circuit tests...'",
+        "cd age_verification && nargo test"
+      ],
+      "run-circuit": [
+        "echo '⚡ Executing circuit...'",
+        "cd age_verification && nargo execute"
+      ],
+      "compile-circuit": [
+        "echo '🔐 Compiling circuit to bytecode...'",
+        "cd age_verification && nargo compile"
+      ],
+      "circuit-info": [
+        "echo '📊 Analyzing circuit...'",
+        "cd age_verification && nargo info"
+      ],
+      "benchmark": [
+        "echo '📈 Running full benchmark suite...'",
+        "python3 scripts/run_benchmark.py"
+      ],
+      "full-demo": [
+        "echo '🎬 Running complete demo...'",
+        "devbox run setup-example",
+        "devbox run check-circuit",
+        "devbox run test-circuit",
+        "devbox run run-circuit",
+        "echo '✅ Demo complete!'"
+      ],
+      "clean": [
+        "echo '🧹 Cleaning generated files...'",
+        "rm -f scripts/issuer_keys.json",
+        "rm -f scripts/credential_info.json",
+        "rm -f benchmark_results.json",
+        "rm -rf age_verification/target/",
+        "echo '✅ Cleaned!'"
+      ]
+    }
   },
   "env": {
     "PATH": "$PATH:$HOME/.nargo/bin"
