@@ -2,6 +2,7 @@
 name = "issuer_check_v01"
 type = "bin"
 authors = [""]
-compiler_version = ">=0.19.0"
+compiler_version = ">=1.0.0"
 
 [dependencies]
+sha256 = { tag = "v0.2.1", git = "https://github.com/noir-lang/sha256" }

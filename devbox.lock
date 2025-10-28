@@ -1,6 +1,10 @@
 {
   "lockfile_version": "1",
   "packages": {
+    "curl": {
+      "resolved": "github:NixOS/nixpkgs/647e5c14cbd5067f44ac86b74f014962df460840?narHash=sha256-JVZl8NaVRYb0%2B381nl7LvPE%2BA774%2FdRpif01FKLrYFQ%3D#curl",
+      "source": "nixpkg"
+    },
     "github:NixOS/nixpkgs/nixpkgs-unstable": {
       "last_modified": "2025-09-28T14:42:27Z",
       "resolved": "github:NixOS/nixpkgs/647e5c14cbd5067f44ac86b74f014962df460840?lastModified=1759070547&narHash=sha256-JVZl8NaVRYb0%2B381nl7LvPE%2BA774%2FdRpif01FKLrYFQ%3D"
@@ -144,6 +148,70 @@
             }
           ],
           "store_path": "/nix/store/ddiqchvpb8gq02q00k7rl0mb4izdigv9-python3-3.11.14"
+        }
+      }
+    },
+    "zed-editor@latest": {
+      "last_modified": "2025-10-13T09:56:54Z",
+      "resolved": "github:NixOS/nixpkgs/c12c63cd6c5eb34c7b4c3076c6a99e00fcab86ec#zed-editor",
+      "source": "devbox-search",
+      "version": "0.207.4",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/lm6bnl8gl5cw5wr2n0vwkpd0f84h0zih-zed-editor-0.207.4",
+              "default": true
+            },
+            {
+              "name": "remote_server",
+              "path": "/nix/store/yl1yihxbakliz15ahr69rbg8if79wbih-zed-editor-0.207.4-remote_server"
+            }
+          ],
+          "store_path": "/nix/store/lm6bnl8gl5cw5wr2n0vwkpd0f84h0zih-zed-editor-0.207.4"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/52smrb1z8r4n71zx50xagkcdrhlga4y5-zed-editor-0.207.4",
+              "default": true
+            },
+            {
+              "name": "remote_server",
+              "path": "/nix/store/4w9kkz6wrr1ccqcncnvkjkriawbx1jc5-zed-editor-0.207.4-remote_server"
+            }
+          ],
+          "store_path": "/nix/store/52smrb1z8r4n71zx50xagkcdrhlga4y5-zed-editor-0.207.4"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/ck2jqhrgi5bm40psq6bn841nymyjqfgk-zed-editor-0.207.4",
+              "default": true
+            },
+            {
+              "name": "remote_server",
+              "path": "/nix/store/gmw34rym84rlbn7dlqd1pcs49p9qnk25-zed-editor-0.207.4-remote_server"
+            }
+          ],
+          "store_path": "/nix/store/ck2jqhrgi5bm40psq6bn841nymyjqfgk-zed-editor-0.207.4"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/xcy56i77apcg3pdx646xl1jh8swfrhnb-zed-editor-0.207.4",
+              "default": true
+            },
+            {
+              "name": "remote_server",
+              "path": "/nix/store/hqx0x7sy4i4fb2fr66xhlyh4gk7cs096-zed-editor-0.207.4-remote_server"
+            }
+          ],
+          "store_path": "/nix/store/xcy56i77apcg3pdx646xl1jh8swfrhnb-zed-editor-0.207.4"
         }
       }
     }

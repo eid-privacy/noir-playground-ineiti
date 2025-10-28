@@ -52,3 +52,46 @@ Just to make sure we're actually doing the right thing.
 The subdirectories should reflect the structure of the `./circuit`
 directory.
 Common code can be directly in the `./test` directory.
+
+# How to run it
+
+## Running Tests
+
+Follow these steps to run the noir circuit tests:
+
+1. **Enter the devbox environment** (if not already in it):
+   ```bash
+   devbox shell
+   ```
+
+2. **Navigate to a specific circuit directory** you want to test:
+   ```bash
+   cd circuit/[credential_format]/[circuit_type]/[version]
+   ```
+
+   For example:
+   ```bash
+   cd circuit/json/signature/v01
+   ```
+
+3. **Run the circuit test**:
+   ```bash
+   nargo test
+   ```
+
+4. **To test all circuits**, you can run tests from the root directory:
+   ```bash
+   # Test all circuits recursively
+   find circuit -name "Nargo.toml" -execdir nargo test \;
+   ```
+
+5. **To generate and verify proofs**:
+   ```bash
+   # Generate proof
+   nargo prove
+
+   # Verify proof
+   nargo verify
+   ```
+
+**Note**: Make sure you have the required credential files in the `creds/` directory before running tests that depend on them.

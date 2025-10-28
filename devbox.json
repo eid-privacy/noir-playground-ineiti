@@ -3,11 +3,17 @@
     "nodejs@18",
     "python@3.11",
     "python311Packages.pip",
+    "zed-editor@latest",
+    "curl"
   ],
   "shell": {
     "init_hook": [
       ". $VENV_DIR/bin/activate",
-      "pip install -r issuer/requirements.txt"
+      "pip install -r issuer/requirements.txt",
+      "if [ ! -f ~/.nargo/bin/noirup ]; then curl -L https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash && ~/.nargo/bin/noirup; fi"
     ]
+  },
+  "env": {
+    "PATH": "$PATH:$HOME/.nargo/bin"
   }
 }
