@@ -5,6 +5,7 @@ Generate inputs for the Noir circuit.
 """
 
 import hashlib
+from hashlib import blake2s
 import json
 import time
 from datetime import datetime
@@ -43,13 +44,16 @@ def create_credential(first_name, last_name, date_of_birth):
     return credential
 
 def hash_credential(credential):
-    """Create SHA256 hash of credential for signing."""
+    """Create Blake2s hash of credential for signing (to match Noir circuit)."""
     # Create a deterministic string representation
     credential_string = f"{credential['first_name']},{credential['last_name']},{credential['birth_timestamp']}"
 
-    # Hash the credential
+    # Hash the credential using Blake2s to match the Noir circuit
     credential_bytes = credential_string.encode('utf-8')
-    credential_hash = hashlib.sha256(credential_bytes).digest()
+
+    # Pad to 100 bytes to match the Noir circuit implementation
+    padded_bytes = credential_bytes + b'\x00' * (100 - len(credential_bytes))
+    credential_hash = blake2s(padded_bytes, digest_size=32).digest()
 
     return credential_hash, credential_string
 
@@ -78,9 +82,6 @@ def sign_credential(credential_hash, private_key_obj):
 def format_inputs_for_noir(credential_hash, credential, signature, keys, current_timestamp, min_age=18):
     """Format all inputs for the Noir circuit."""
 
-    # Format credential hash as byte array
-    hash_bytes = [f"0x{credential_hash.hex()[i:i+2]}" for i in range(0, 64, 2)]
-
     # Format credential name fields as byte arrays (padded to 32 bytes)
     first_name_bytes = []
     first_name_str = credential['first_name']
@@ -106,7 +107,6 @@ def format_inputs_for_noir(credential_hash, credential, signature, keys, current
     pub_y_bytes = [f"0x{keys['public_key_y'][i:i+2]}" for i in range(0, 64, 2)]
 
     return {
-        'credential_hash': hash_bytes,
         'first_name_bytes': first_name_bytes,
         'last_name_bytes': last_name_bytes,
         'birth_timestamp': credential['birth_timestamp'],
@@ -123,7 +123,6 @@ def save_circuit_inputs(inputs, credential_info):
     # Write Prover.toml with all inputs (private and public)
     with open('age_verification/Prover.toml', 'w') as f:
         f.write("# Inputs for the age verification circuit\n")
-        f.write(f"credential_hash = {inputs['credential_hash']}\n")
         f.write(f"first_name_bytes = {inputs['first_name_bytes']}\n")
         f.write(f"last_name_bytes = {inputs['last_name_bytes']}\n")
         f.write(f"birth_timestamp = {inputs['birth_timestamp']}\n")
@@ -170,7 +169,7 @@ if __name__ == "__main__":
     # Hash the credential
     credential_hash, credential_string = hash_credential(credential)
     print(f"\nCredential String: {credential_string}")
-    print(f"Credential Hash: 0x{credential_hash.hex()}")
+    print(f"Credential Hash (Blake2s): 0x{credential_hash.hex()}")
 
     # Sign the credential
     signature, r, s = sign_credential(credential_hash, keys['private_key_obj'])
