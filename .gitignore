@@ -32,3 +32,4 @@ Thumbs.db
 # devbox
 .devbox/
 age_verification/proofs
+.nargo

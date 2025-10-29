@@ -8,7 +8,7 @@
   "shell": {
     "init_hook": [
       ". $VENV_DIR/bin/activate",
-      "if [ ! -f ~/.nargo/bin/noirup ]; then curl -L https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash && ~/.nargo/bin/noirup; fi",
+      "if [ ! -f $NARGO_HOME/bin/noirup ]; then curl -L https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash && noirup -v 1.0.0-beta.13; fi",
       "pip install ecdsa"
     ],
     "scripts": {
@@ -72,6 +72,7 @@
     }
   },
   "env": {
-    "PATH": "$PATH:$HOME/.nargo/bin"
-  }
+    "NARGO_HOME": "$PWD/.nargo",
+    "PATH": "$PWD/.nargo/bin:$PATH"
+  } 
 }
