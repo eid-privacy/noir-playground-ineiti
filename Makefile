@@ -1,10 +1,12 @@
+CREDS := credentials
+CIRCUITS := circuits
+
 all: issuer sign provers witness proof
 
 clean:
 	rm -rf credentials proofs
-
-CREDS := credentials
-CIRCUITS := circuits
+	find $(CIRCUITS) -name target | xargs rm -rf
+	find $(CIRCUITS) -name "Prover*toml" | xargs rm -rf
 
 issuer:
 	./scripts/1-create-issuer-key.py $(CREDS)

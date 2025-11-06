@@ -1,5 +1,5 @@
 [package]
-name = "age_verification"
+name = "c01_fixed_age"
 type = "bin"
 authors = [""]
 

@@ -54,7 +54,7 @@ if __name__ == "__main__":
             credentials_fixed.append(cred)
 
     circuits_fixed = [
-        d for d in glob.glob(os.path.join(CIRCUIT_DIR, "*-fixed-*")) if os.path.isdir(d)
+        d for d in glob.glob(os.path.join(CIRCUIT_DIR, "*_fixed_*")) if os.path.isdir(d)
     ]
     time_now = int(datetime(2025, 11, 6, 18, 20).timestamp())
     if circuits_fixed:
