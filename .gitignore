@@ -33,3 +33,5 @@ Thumbs.db
 .devbox/
 age_verification/proofs
 .nargo
+claude_stuff
+credentials
