@@ -8,11 +8,10 @@
     "github:eid-privacy/flakes#barretenberg"
   ],
   "shell": {
-    "init_hook": [
-      ". $VENV_DIR/bin/activate",
-      "pip install ecdsa"
-    ],
-    "scripts": {},
+    "init_hook": [". $VENV_DIR/bin/activate", "pip install ecdsa"],
+    "scripts": {
+      "all": "make all"
+    },
     "env": {}
   }
 }

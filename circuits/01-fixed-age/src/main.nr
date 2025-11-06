@@ -3,7 +3,6 @@ use sha256::sha256_var;
 fn main(
     // Private inputs - credential data
     credential_raw: [u8; 74],
-    // credential_msg_hash: [u8; 32],
     signature: [u8; 64],
 
     // Public inputs
@@ -13,10 +12,6 @@ fn main(
 ) -> pub bool {
     // Step 1: Calculate the credential hash from components
     let credential_hash: [u8; 32] = sha256_var(credential_raw, 74).into();
-    println(f"hash:  {credential_hash}");
-    println(f"pub_x: {pubkey_issuer_x}");
-    println(f"pub_y: {pubkey_issuer_y}");
-    println(f"sig:   {signature}");
 
     // Step 2: Verify ECDSA signature on the credential hash
     let signature_valid = std::ecdsa_secp256k1::verify_signature(
@@ -39,8 +34,5 @@ fn main(
     let age_requirement_met = age_seconds >= min_age_seconds;
 
     // Step 4: Return combined result
-    // The prover must provide correct credential components AND valid signature
-    // signature_valid & age_requirement_met
-    println(f"valid: {signature_valid}");
-    age_requirement_met
+    signature_valid & age_requirement_met
 }
