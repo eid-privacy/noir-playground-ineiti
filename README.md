@@ -23,7 +23,7 @@ devbox run all
 
 ## Circuits
 
-## ZKP Proofs
+## Proof creation
 
 # Terms
 
