@@ -11,7 +11,7 @@ This repo has three parts:
 
 # TLDR
 
-If you just want to run it all and see it fail, run
+If you just want to run it all and see it prove, run
 
 ```bash
 devbox run all

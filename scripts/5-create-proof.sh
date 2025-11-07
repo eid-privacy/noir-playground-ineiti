@@ -6,6 +6,5 @@ CIRCUIT_DIR=$CIRCUIT_BASE_DIR/$CIRCUIT
 PROOF_DIR=proofs
 
 bb gates -s ultra_honk -b $CIRCUIT_DIR/target/$CIRCUIT.json
-bb write_vk -d -s ultra_honk -b $CIRCUIT_DIR/target/$CIRCUIT.json -o $PROOF_DIR
-bb prove -d -s ultra_honk -b $CIRCUIT_DIR/target/$CIRCUIT.json -w $CIRCUIT_DIR/target/$CIRCUIT.gz -k $PROOF_DIR -o $PROOF_DIR
-bb verify -d -s ultra_honk -p $PROOF_DIR -k $PROOF_DIR -i $PROOF_DIR/public_inputs
+bb prove -d -s ultra_honk -b $CIRCUIT_DIR/target/$CIRCUIT.json -w $CIRCUIT_DIR/target/$CIRCUIT.gz --write_vk -o $PROOF_DIR
+bb verify -d -s ultra_honk -p $PROOF_DIR/proof -k $PROOF_DIR/vk -i $PROOF_DIR/public_inputs
