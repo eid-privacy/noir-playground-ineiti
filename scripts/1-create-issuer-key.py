@@ -5,23 +5,23 @@ Outputs the keys in formats suitable for Noir circuit inputs.
 """
 
 from common import parse_args
-from ecdsa import SigningKey, SECP256k1
+from coincurve import PrivateKey
 import os
 
 
 def generate_issuer_keys():
     """Generate a new secp256k1 key pair for the issuer."""
     # Generate random private key
-    private_key = SigningKey.generate(curve=SECP256k1)
-    public_key = private_key.get_verifying_key()
+    private_key = PrivateKey()
+    public_key = private_key.public_key
 
     # Get raw private key bytes (32 bytes)
-    private_key_bytes = private_key.to_string()
+    private_key_bytes = private_key.secret
 
     # Get public key coordinates (32 bytes each for x and y)
-    public_key_point = public_key.pubkey.point
-    x_coord = public_key_point.x().to_bytes(32, byteorder="big")
-    y_coord = public_key_point.y().to_bytes(32, byteorder="big")
+    x_coord, y_coord = public_key.point()
+    x_coord = x_coord.to_bytes(32, byteorder="big")
+    y_coord = y_coord.to_bytes(32, byteorder="big")
 
     return {
         "private_key": private_key_bytes.hex(),

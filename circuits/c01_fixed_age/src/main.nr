@@ -13,8 +13,6 @@ fn main(
     // Step 1: Calculate the credential hash from components
     let credential_hash: [u8; 32] = sha256_var(credential_raw, 74).into();
 
-    println(signature);
-
     // Step 2: Verify ECDSA signature on the credential hash
     let signature_valid = std::ecdsa_secp256k1::verify_signature(
         pubkey_issuer_x,

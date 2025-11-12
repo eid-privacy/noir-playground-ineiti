@@ -7,7 +7,6 @@ import hashlib
 import json
 import common
 from datetime import datetime
-from ecdsa.util import sigencode_string
 import os
 
 
@@ -31,12 +30,11 @@ def sign_store_fixed(dirname, label, credential, private_key_obj):
     birth_timestamp_str = str(credential["birth_timestamp"]).rjust(10, "0")
 
     credential_string = first_name_fixed + last_name_fixed + birth_timestamp_str
-    signature = private_key_obj.sign(
-        credential_string.encode("utf-8"),
-        hashfunc=hashlib.sha256,
-    )
+    message_hash = hashlib.sha256(credential_string.encode("utf-8")).digest()
+    signature = private_key_obj.sign_recoverable(message_hash, hasher=None)[:64]  # Only r,s (64 bytes)
 
     print(f"Signed and storing {label}")
+    print(f"  Signature length: {len(signature)} bytes")
     with open(os.path.join(dirname, f"credential_fixed_{label}.json"), "w") as f:
         json.dump(
             {

@@ -25,13 +25,13 @@
       "last_modified": "2025-11-05T16:44:39Z",
       "resolved": "github:NixOS/nixpkgs/ffcdcf99d65c61956d882df249a9be53e5902ea5?lastModified=1762361079&narHash=sha256-lz718rr1BDpZBYk7%2BG8cE6wee3PiBUpn8aomG%2FvLLiY%3D"
     },
-    "github:eid-privacy/flakes#barretenberg-versions.v1_2_1": {
+    "github:eid-privacy/flakes#barretenberg-versions.v2_1_2": {
       "last_modified": "2025-11-12T11:50:21Z",
-      "resolved": "github:eid-privacy/flakes/4572f8d08ae86df0a356250b42da32567776ad78?lastModified=1762948221&narHash=sha256-UuA9YDbv0TZ2ncDjBFquEVk5ZsmkIwp1lw3mAcAxCEA%3D#barretenberg-versions.v1_2_1"
+      "resolved": "github:eid-privacy/flakes/4572f8d08ae86df0a356250b42da32567776ad78?lastModified=1762948221&narHash=sha256-UuA9YDbv0TZ2ncDjBFquEVk5ZsmkIwp1lw3mAcAxCEA%3D#barretenberg-versions.v2_1_2"
     },
-    "github:eid-privacy/flakes#noir-versions.v1_0_0-beta_13": {
+    "github:eid-privacy/flakes#noir-versions.v1_0_0-beta_15": {
       "last_modified": "2025-11-12T11:50:21Z",
-      "resolved": "github:eid-privacy/flakes/4572f8d08ae86df0a356250b42da32567776ad78?lastModified=1762948221&narHash=sha256-UuA9YDbv0TZ2ncDjBFquEVk5ZsmkIwp1lw3mAcAxCEA%3D#noir-versions.v1_0_0-beta_13"
+      "resolved": "github:eid-privacy/flakes/4572f8d08ae86df0a356250b42da32567776ad78?lastModified=1762948221&narHash=sha256-UuA9YDbv0TZ2ncDjBFquEVk5ZsmkIwp1lw3mAcAxCEA%3D#noir-versions.v1_0_0-beta_15"
     },
     "nodejs@18": {
       "last_modified": "2025-04-17T05:47:26Z",

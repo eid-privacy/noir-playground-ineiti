@@ -33,6 +33,14 @@ Then you can use `make all` and `make clean`, or directly call the scripts.
 
 # Components
 
+## Noir and Barretenberg
+
+This example creates a circuit using [Noir](https://noir-lang.org), and then uses
+[Barretenberg](https://github.com/AztecProtocol/aztec-packages/tree/next/barretenberg)
+to create a proof.
+You can use the [flakes](https://github.com/eid-privacy/flakes) from our
+e-id project if you want to install noir and Barretenberg for your project.
+
 ## Credentials
 
 Currently the following credential is created:
@@ -85,3 +93,16 @@ Depending on the opcodes, smaller ACIR number can create larger R1CS circuits!
 - Very bad article which does stupid stuff but still helped me find the 'sigencode' argument
 - [Noir Lang Docs](https://noir-lang.org/docs/)
 - Flakes for Noir and Barretenberg: https://github.com/eid-privacy/flakes
+
+# Shenanigans
+
+## ECDSA low-s signature
+
+There is a problem with regard to ECDSA signature: for every valid signature, there exists another
+valid signature for the same message.
+This is described [in Wikipedia](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Signature_verification_algorithm).
+The bitcoin community decided to only allow one of the two signatures.
+So noir followed up on that and only accepts this one, too.
+Unfortunately, lots of libraries create randomly one of the two signatures,
+so there is a 50% chance that an ECDSA signature doesn't verify with the
+noir verification.

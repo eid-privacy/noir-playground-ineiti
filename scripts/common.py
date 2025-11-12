@@ -1,6 +1,6 @@
 import argparse
 import os
-from ecdsa import SigningKey, SECP256k1
+from coincurve import PrivateKey
 import json
 
 
@@ -30,10 +30,8 @@ def load_issuer_keys(dirname):
             keys = json.load(f)
 
         private_key_bytes = bytes.fromhex(keys["private_key"])
-        keys["private_key_obj"] = SigningKey.from_string(
-            private_key_bytes, curve=SECP256k1
-        )
-        keys["public_key_obj"] = keys["private_key_obj"].get_verifying_key()
+        keys["private_key_obj"] = PrivateKey(private_key_bytes)
+        keys["public_key_obj"] = keys["private_key_obj"].public_key
 
         return keys
 
