@@ -89,8 +89,8 @@ Depending on the opcodes, smaller ACIR number can create larger R1CS circuits!
 
 # Links
 
-- Python ECDSA library: https://ecdsa.readthedocs.io/en/latest/quickstart.html
-- Very bad article which does stupid stuff but still helped me find the 'sigencode' argument
+- DO NOT USE because of low- and high-s: Python ECDSA library: https://ecdsa.readthedocs.io/en/latest/quickstart.html
+- low-s only ECDSA signatures: https://ofek.dev/coincurve/api/
 - [Noir Lang Docs](https://noir-lang.org/docs/)
 - Flakes for Noir and Barretenberg: https://github.com/eid-privacy/flakes
 
