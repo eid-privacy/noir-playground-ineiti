@@ -23,10 +23,10 @@ def parse_args(description, circuit=False):
         return os.path.abspath(args.key_dir)
 
 
-def load_issuer_keys(dirname):
+def load_keys(dirname, filename):
     """Load issuer keys from JSON file."""
     try:
-        with open(os.path.join(dirname, "issuer_keys.json"), "r") as f:
+        with open(os.path.join(dirname, filename), "r") as f:
             keys = json.load(f)
 
         private_key_bytes = bytes.fromhex(keys["private_key"])
@@ -36,5 +36,13 @@ def load_issuer_keys(dirname):
         return keys
 
     except FileNotFoundError:
-        print("❌ Error: issuer_keys.json not found. Run generate_keys.py first.")
+        print(f"❌ Error: {filename} not found. Run 1-create-keys.py first.")
         exit(1)
+
+def load_issuer_keys(dirname):
+    """Load issuer keys from JSON file."""
+    return load_keys(dirname, "keys_issuer.json")
+
+def load_device_keys(dirname, label):
+    """Load device keys from JSON file."""
+    return load_keys(dirname, f"keys_device_{label}.json")

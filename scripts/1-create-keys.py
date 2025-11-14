@@ -9,7 +9,7 @@ from coincurve import PrivateKey
 import os
 
 
-def generate_issuer_keys():
+def generate_keys():
     """Generate a new secp256k1 key pair for the issuer."""
     # Generate random private key
     private_key = PrivateKey()
@@ -54,5 +54,11 @@ if __name__ == "__main__":
 
     print("Generating secp256k1 issuer key pair...")
 
-    keys = generate_issuer_keys()
-    save_keys_to_file(keys, os.path.join(KEY_DIR, "issuer_keys.json"))
+    keys = generate_keys()
+    save_keys_to_file(keys, os.path.join(KEY_DIR, "keys_issuer.json"))
+
+    keys = generate_keys()
+    save_keys_to_file(keys, os.path.join(KEY_DIR, "keys_device_alice.json"))
+
+    keys = generate_keys()
+    save_keys_to_file(keys, os.path.join(KEY_DIR, "keys_device_bob.json"))

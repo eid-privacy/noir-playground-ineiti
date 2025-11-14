@@ -9,7 +9,7 @@ clean:
 	find $(CIRCUITS) -name "Prover*toml" | xargs rm -rf
 
 issuer:
-	./scripts/1-create-issuer-key.py $(CREDS)
+	./scripts/1-create-keys.py $(CREDS)
 
 sign:
 	./scripts/2-create-signed-credentials.py $(CREDS)

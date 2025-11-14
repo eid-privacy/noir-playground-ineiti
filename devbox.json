@@ -4,8 +4,8 @@
     "python@3.11",
     "python311Packages.pip",
     "curl",
-    "github:eid-privacy/flakes#noir-versions.v1_0_0-beta_15",
-    "github:eid-privacy/flakes#barretenberg-versions.v2_1_2"
+    "github:eid-privacy/flakes#noir-versions.v1_0_0-beta_13",
+    "github:eid-privacy/flakes#barretenberg-versions.v1_2_1"
   ],
   "shell": {
     "init_hook": [

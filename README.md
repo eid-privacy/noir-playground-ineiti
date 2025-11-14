@@ -45,13 +45,13 @@ e-id project if you want to install noir and Barretenberg for your project.
 
 Currently the following credential is created:
 
-- `fixed_age` with a fixed length for each field
+- `fixed` with a fixed length for each field, including fistname, lastname, and date of birth
+- `device_fixed` like `fixed`, but adds a device key in addition to the other fields
 
 Proposed other credentials include:
 
-- `fixed_age_hobi` for `Holder Binding (hobi)`
-- `jwt_age(|_hobi)` for jwt-encoded credentials
-- `cbor_age(|_hobi)` using cbor encoding, like mdoc
+- `jwt_age(|_device)` for jwt-encoded credentials
+- `cbor_age(|_device)` using cbor encoding, like mdoc
 
 ### Test persona
 
@@ -64,7 +64,13 @@ Two test persona are available:
 
 Implemented and tested circuits:
 
-- `c01_fixed_age`
+- `c00_fixed` - checking the issuer signature
+  - ecdsa signature check for issuer
+- `c01_fixed_age` - adding age checking
+  - ecdsa signature check for issuer, convert ascii integer to integer, check against current time
+- `c02_device_fixed_age` - adding device checking
+  - ecdsa signature check for issuer, convert ascii integer to integer, check against current time
+    ecdsa signature check for device
 
 Other circuits should follow...
 
@@ -106,3 +112,18 @@ So noir followed up on that and only accepts this one, too.
 Unfortunately, lots of libraries create randomly one of the two signatures,
 so there is a 50% chance that an ECDSA signature doesn't verify with the
 noir verification.
+
+## Noir and Barretenberg versions
+
+Currently I have two versions for both:
+
+- noir has 1.0.0.beta_13 and .beta_15
+- barretenberg has 1.2.1 and 2.1.2
+
+Only the older versions work.
+With the newer versions, Barretenberg complains that:
+- circuit too big
+- signature has 0 for r and s
+
+Perhaps if I try the latest version of noir, I should also use the rc-version
+of Barretenberg?

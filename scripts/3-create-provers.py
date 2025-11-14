@@ -7,29 +7,30 @@ from datetime import datetime
 import os
 import common
 import glob
+import re
 
 
-def prover_fixed(time_now, pubkey_issuer, credentials, dirnames):
-    for dir in dirnames:
-        for i, cred in enumerate(credentials):
-            print(f"Storing to {dir}/Prover_{i}: {cred['credential_string'][0:5]}")
-            with open(os.path.join(dir, f"Prover_{i}.toml"), "w") as f:
-                toml.dump(
-                    {
-                        "current_date": time_now,
-                        "pubkey_issuer_x": pubkey_issuer[0],
-                        "pubkey_issuer_y": pubkey_issuer[1],
-                        "credential_raw": cred["credential_string"].encode("utf-8"),
-                        "signature": bytes.fromhex(cred["signature"]),
-                    },
-                    f,
-                )
+def prover_fixed(time_now, pubkey_issuer, credentials, dirname):
+    for i, cred in enumerate(credentials):
+        print(
+            f"Storing fixed to {dirname}/Prover_{i}: {cred['credential_string'][0:5]}"
+        )
+        with open(os.path.join(dirname, f"Prover_{i}.toml"), "w") as f:
+            toml.dump(
+                {
+                    "current_date": time_now,
+                    "pubkey_issuer_x": pubkey_issuer[0],
+                    "pubkey_issuer_y": pubkey_issuer[1],
+                    **cred,
+                },
+                f,
+            )
 
 
 def verify_credential(cred):
     cred_bytes = cred["credential_string"].encode("utf-8")
     message_hash = hashlib.sha256(cred_bytes).digest()
-    signature_bytes = bytes.fromhex(cred["signature"])
+    signature_bytes = bytes.fromhex(cred["signature_issuer"])
     print(f"Credential: {cred['credential_string'][0:5]}...")
     print(f"  Hash: {message_hash.hex()}")
 
@@ -56,6 +57,22 @@ def verify_credential(cred):
         print(f"  Signature verification: FAILED ({e})")
 
 
+def get_credentials(dirname, pattern):
+    pattern = os.path.join(dirname, pattern)
+    credentials = []
+    for cred_path in sorted(glob.glob(pattern)):
+        with open(cred_path, "r", encoding="utf-8") as f:
+            cred = json.loads(f.read())
+            # Convert all fields starting with "0x" to binary
+            for key, value in cred.items():
+                if isinstance(value, str) and value.startswith("0x"):
+                    cred[key] = bytes.fromhex(value[2:])
+
+            credentials.append(cred)
+            # verify_credential(cred)
+    return credentials
+
+
 if __name__ == "__main__":
     print("Creating various credentials and sign them...")
     [KEY_DIR, CIRCUIT_DIR] = common.parse_args("Create credentials.", True)
@@ -68,17 +85,19 @@ if __name__ == "__main__":
     print(keys["public_key_x"])
     print(keys["public_key_y"])
 
-    pattern = os.path.join(KEY_DIR, "credential_fixed_*.json")
-    credentials_fixed = []
-    for cred_path in sorted(glob.glob(pattern)):
-        with open(cred_path, "r", encoding="utf-8") as f:
-            cred = json.loads(f.read())
-            credentials_fixed.append(cred)
-            # verify_credential(cred)
+    credentials_fixed = get_credentials(KEY_DIR, "credential_fixed*.json")
+    credentials_device_fixed = get_credentials(KEY_DIR, "credential_device_fixed*.json")
 
-    circuits_fixed = [
-        d for d in glob.glob(os.path.join(CIRCUIT_DIR, "*_fixed_*")) if os.path.isdir(d)
+    circuits = [
+        d for d in glob.glob(os.path.join(CIRCUIT_DIR, "c*_*")) if os.path.isdir(d)
     ]
     time_now = int(datetime(2025, 11, 6, 18, 20).timestamp())
-    if circuits_fixed:
-        prover_fixed(time_now, pubkey_issuer_xy, credentials_fixed, circuits_fixed)
+    for circuit in circuits:
+        base = os.path.basename(circuit)
+        print(f"Looking at circuit: {base}")
+        if re.match(r"c.._fixed", base):
+            print(f"Processing fixed circuit at {base}...")
+            prover_fixed(time_now, pubkey_issuer_xy, credentials_fixed, circuit)
+        elif re.match(r"c.._device_fixed", base):
+            print(f"Processing device_fixed circuit at {base}...")
+            prover_fixed(time_now, pubkey_issuer_xy, credentials_device_fixed, circuit)
